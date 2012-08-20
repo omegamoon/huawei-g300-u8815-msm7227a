@@ -20,6 +20,7 @@
 #include<asm/atomic.h>
 #include<mach/camera.h>
 
+#define OMEGAMOON_CHANGED
 #define PRINT_BUG
 
 #ifdef  PRINT_BUG
@@ -105,7 +106,11 @@ static long hw_camera_led_ioctl(struct file *filep ,unsigned int cmd, unsigned l
 			}
 			else
 			{
+#ifdef OMEGAMOON_CHANGED
+				ret = tps61310_set_flash(camera_led_state);
+#else
 				ret = msm_camera_flash_set_led_state(&hw_camera_led_data,camera_led_state);
+#endif
 				if(!ret)
 				{
 					atomic_set(&camera_led_flag,camera_led_state);

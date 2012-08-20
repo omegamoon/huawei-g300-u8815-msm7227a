@@ -59,6 +59,10 @@ enum msm_cam_flash_stat{
 	MSM_CAM_FLASH_ON,
 };
 
+#if defined CONFIG_HUAWEI_FEATURE_TPS61310
+static struct i2c_client *tps61310_client;
+#endif
+
 #if defined CONFIG_MSM_CAMERA_FLASH_SC628A
 static struct i2c_client *sc628a_client;
 
