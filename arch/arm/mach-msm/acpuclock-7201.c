@@ -232,7 +232,12 @@ static struct clkctl_acpu_speed pll0_960_pll1_245_pll2_1200_pll4_1008[] = {
 	{ 1, 1190400,    ACPU_PLL_4,  6,  0, 148800,   3,  7, 200000 },
 	{ 1, 1228800,    ACPU_PLL_4,  6,  0, 153600,   3,  7, 200000 },
 	{ 1, 1267200,    ACPU_PLL_4,  6,  0, 158400,   3,  7, 200000 },
-	{ 1, 1305600,    ACPU_PLL_4,  6,  0, 163200,   3,  7, 200000 },
+
+	// Users report that CPU is stable in between 1.2 and 1.3GHz
+	{ 1, 1270000,    ACPU_PLL_4,  6,  0, 158750,   3,  7, 200000 },
+	{ 1, 1280000,    ACPU_PLL_4,  6,  0, 160000,   3,  7, 200000 }, // PLL4 max of 66.7MHz
+	{ 1, 1290000,    ACPU_PLL_4,  6,  0, 161250,   3,  7, 200000 },
+	{ 1, 1300000,    ACPU_PLL_4,  6,  0, 162500,   3,  7, 200000 },
 	// Up to 1.3GHz is stable but... Let's go bananas!!
 	{ 1, 1310720,    ACPU_PLL_4,  6,  0, 163840,   3,  7, 200000 },
 	{ 1, 1324800,    ACPU_PLL_4,  6,  0, 165600,   3,  7, 200000 },
@@ -518,8 +523,13 @@ static void acpuclk_set_div(const struct clkctl_acpu_speed *hunt_s)
 	#ifdef CONFIG_MSM7X27AA_OVERCLOCK
 	// Perform overclocking if requested
 	if (hunt_s->a11clk_khz > 1008000) {
-		// Change the speed of PLL4
-		writel(hunt_s->a11clk_khz/19200,PLL4_L_VAL);
+		//if (hunt_s->a11clk_khz > 1280000) {
+			// Don't exceed the max PLL4 speed of 66.67MHz
+		//	writel(1280000/19200,PLL4_L_VAL);
+		//} else {
+			// Change the speed of PLL4
+			writel(hunt_s->a11clk_khz/19200,PLL4_L_VAL);
+		//}
 		udelay(50);
 	}
 	#endif
