@@ -615,8 +615,8 @@ static int __init init_log(struct logger_log *log)
 static int __init logger_init(void)
 {
 	int ret;
-/* for logcat control by nv */
-#ifdef CONFIG_HUAWEI_KERNEL
+/* for logcat control by nv - Logcat should be enabled at *ALL* times */
+#ifdef CONFIG_HUAWEI_KERNEL_DISABLED
     u16 nv_item = LOG_CTL_INFO_ITEM;
     struct log_ctl ctl_info;
     int  rval = -1;
